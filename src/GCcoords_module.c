@@ -47,7 +47,31 @@ static PyMethodDef GCcoords_methods[] =
     {0,            0}                             /* sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+static struct PyModuleDef moduledef = {
+    PyModuleDef_HEAD_INIT,
+    "GCcoords",
+    NULL,
+    -1,
+    GCcoords_methods,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+};
+
+PyObject *PyInit_GCcoords(void)
+{
+    PyObject *m;
+    m = PyModule_Create(&moduledef);
+    import_array();
+
+    return m;
+}
+
+#else
 void initGCcoords(void) {
 	Py_InitModule("GCcoords", GCcoords_methods);
     import_array();
 }
+#endif
